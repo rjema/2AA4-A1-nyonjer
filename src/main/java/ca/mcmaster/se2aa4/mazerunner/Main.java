@@ -7,6 +7,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.commons.cli.*;
 
+// Uses straight maze for the MVP
+
 public class Main {
 
     private static final Logger logger = LogManager.getLogger();
@@ -27,18 +29,23 @@ public class Main {
             String inputFile = cmd.getOptionValue("i");
             String mazePath = cmd.getOptionValue("p");
 
-            logger.info("**** Reading the maze from file " + inputFile);
+            if (inputFile.equals("examples/straight.maz.txt")) {
+                logger.info("**** Reading the maze from file " + inputFile);
 
-            Maze maze = new Maze(inputFile);
+                Maze maze = new Maze(inputFile);
 
-            if (mazePath == null) {
-                logger.info("**** Computing path");
-                logger.info(maze.getPath());
+                if (mazePath == null) {
+                    logger.info("**** Computing path");
+                    logger.info(maze.getPath());
+                } else {
+                    logger.info("**** Verifying path");
+                    Path path = new Path(maze, mazePath);
+                    logger.info(path.isValid());
+                }
             } else {
-                logger.info("**** Verifying path");
-                Path path = new Path(maze, mazePath);
-                logger.info(path.isValid());
+                logger.error("**** Invalid maze file. Use straight maze and ensure the file path is correct.");
             }
+
 
         } catch(Exception e) {
             logger.error("/!\\ An error has occurred /!\\");
