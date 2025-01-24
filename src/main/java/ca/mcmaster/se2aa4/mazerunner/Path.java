@@ -17,10 +17,13 @@ public class Path{
     }
 
     public String isValid(){
+
         int r = maze.getEntry()[0];
         int c = maze.getEntry()[1];
+
         int exitRow = maze.getExit()[0];
         int exitCol = maze.getExit()[1];
+
         int i = 0;
 
         String expandedPath = getCanonPath();
@@ -30,6 +33,7 @@ public class Path{
         }
 
         while (i < expandedPath.length() && r <= exitRow && c <= exitCol){
+
             if (expandedPath.charAt(i) == 'F'){
                 i++;
             } else {
@@ -41,6 +45,7 @@ public class Path{
             }
             c++; 
         }
+
         return "Incorrect path";
     }
 
@@ -50,9 +55,12 @@ public class Path{
         StringBuffer cPath = new StringBuffer("");
 
         for (int i=0; i < factorPath.length; i++){
+
             if (factorPath[i].charAt(0) >= '2' && factorPath[i].charAt(0) <= '9'){
+
                 int count = Character.getNumericValue(factorPath[i].charAt(0)); 
 
+                //Add to canonical path string based on the number of times the character is to be repeated
                 for (int j=0; j < count; j++){
                     cPath.append(factorPath[i].charAt(1));
                 }

@@ -17,6 +17,8 @@ public class Main {
         logger.info("** Starting Maze Runner");
 
         Options options = new Options();
+
+        //Adding maze input and path input options
         options.addOption("i", "input", true, "Maze file to read");
         options.addOption("p", "path", true, "Potential maze path");
 
@@ -29,6 +31,7 @@ public class Main {
             String inputFile = cmd.getOptionValue("i");
             String mazePath = cmd.getOptionValue("p");
 
+            //Checking for correct maze file
             if (inputFile.equals("examples/straight.maz.txt")) {
                 logger.info("**** Reading the maze from file " + inputFile);
 

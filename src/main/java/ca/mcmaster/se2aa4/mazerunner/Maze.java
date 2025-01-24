@@ -30,6 +30,7 @@ public class Maze{
 
             reader = new BufferedReader(new FileReader(mazeFile));
 
+            //Adding to 2D array that represents the maze. 1 is a wall, 0 is a path
             while ((line = reader.readLine()) != null) {
                 for (int idx = 0; idx < line.length(); idx++) {
                     if (line.charAt(idx) == '#') {
