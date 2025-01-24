@@ -16,6 +16,7 @@ public class Main {
 
         Options options = new Options();
         options.addOption("i", "input", true, "Maze file to read");
+        options.addOption("p", "path", true, "Potential maze path");
 
         CommandLineParser parser = new DefaultParser();    
 
@@ -24,14 +25,32 @@ public class Main {
             CommandLine cmd = parser.parse(options, args);
 
             String inputFile = cmd.getOptionValue("i");
+            String mazePath = cmd.getOptionValue("p");
 
             logger.info("**** Reading the maze from file " + inputFile);
-            
+            // BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+            // String line;
+            // logger.info(mazePath);
+            // while ((line = reader.readLine()) != null) {
+            //     for (int idx = 0; idx < line.length(); idx++) {
+            //         if (line.charAt(idx) == '#') {
+            //             System.out.print("WALL ");
+            //         } else if (line.charAt(idx) == ' ') {
+            //             System.out.print("PASS ");
+            //         }
+            //     }
+            //     System.out.println(System.lineSeparator());
+            // }
             Maze maze = new Maze(inputFile);
 
-            logger.info("**** Computing path");
-            logger.info("Path: " + maze.getPath());
-            
+            if (mazePath == null) {
+                logger.info("**** Computing path");
+                logger.info("Path: " + maze.getPath());
+            } else {
+                logger.info("**** Verifying path");
+                Path path = new Path(maze, mazePath);
+                logger.info("Unknown.");
+            }
 
         } catch(Exception e) {
             logger.error("/!\\ An error has occurred /!\\");
