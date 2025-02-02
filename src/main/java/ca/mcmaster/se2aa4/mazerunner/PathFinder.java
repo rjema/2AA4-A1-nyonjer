@@ -7,37 +7,45 @@ public class PathFinder {
     private Compass compass;
     private int row, col;
     private MazeEntry entry;
+    private String path;
+
     public PathFinder(Maze maze, Compass compass) {
         this.maze = maze;
         this.compass = compass;
         this.entry = new MazeEntry(maze);
         this.row = entry.leftRow();
         this.col = entry.leftCol();
+        this.path = calculatePath();
+
     }
 
-    public String getPath() {
-        StringBuffer path = new StringBuffer("");
+    public String getPath(){
+        return factorisePath();
+    }
+
+    private String calculatePath() {
+        StringBuffer pathBuffer = new StringBuffer("");
         moveForward();
-        path.append("F ");
+        pathBuffer.append("F ");
         while(!entry.isExit(row, col)){
             if (handOnWall()){
                 if (canMoveForward()){
                     moveForward();
-                    path.append("F ");
+                    pathBuffer.append("F");
                 } else {
                     compass.turnLeft();
-                    path.append("L ");
+                    pathBuffer.append("L");
                 }
             } else {
                 compass.turnRight();
                 moveForward();
-                path.append("R F ");
+                pathBuffer.append("RF");
             }
         }
-        return path.toString();
+        return pathBuffer.toString();
     }
 
-    public boolean handOnWall(){
+    private boolean handOnWall(){
         if (compass.getDirection() == Direction.NORTH){
             return maze.getMaze()[row][col+1] == Passage.WALL ? true : false;
         } else if (compass.getDirection() == Direction.EAST){
@@ -49,7 +57,7 @@ public class PathFinder {
         }
     }
 
-    public boolean canMoveForward(){
+    private boolean canMoveForward(){
         if (compass.getDirection() == Direction.NORTH){
             return maze.getMaze()[row-1][col] == Passage.PASS ? true : false;
         } else if (compass.getDirection() == Direction.EAST){
@@ -61,7 +69,7 @@ public class PathFinder {
         }
     }
 
-    public void moveForward(){
+    private void moveForward(){
         if (compass.getDirection() == Direction.NORTH){
             row--;
         } else if (compass.getDirection() == Direction.EAST){
@@ -71,6 +79,27 @@ public class PathFinder {
         } else {
             col--;
         }
+    }
+
+    private String factorisePath(){
+
+        if (path == null || path.isEmpty()) return "";
+
+        StringBuffer result = new StringBuffer();
+        int count = 1;
+
+        for (int i = 1; i < path.length(); i++) {
+            if (path.charAt(i) == path.charAt(i - 1)) {
+                count++;
+            } else {
+                result.append(count > 1 ? count : "").append(path.charAt(i - 1)).append(" ");
+                count = 1;
+            }
+        }
+
+        result.append(count > 1 ? count : "").append(path.charAt(path.length() - 1));
+
+        return result.toString().trim();
     }
 }  
 
