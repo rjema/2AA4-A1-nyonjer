@@ -1,77 +1,86 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 
-public class Maze{
-    private int[][] maze;
+public class Maze {
+    private Border[][] maze;
     private int numRows, numCols;
 
-    public Maze(String mazeFile){
-        try{
+    public Maze(String mazeFile) {
+        try {
             BufferedReader reader = new BufferedReader(new FileReader(mazeFile));
             String line;
-            int row = 0;
-            int cols = 0;
+            int row = 0, cols = 0;
 
-            
+            // Determine the dimensions of the maze
             while ((line = reader.readLine()) != null) {
                 row++;
-                cols = line.length();
+                cols = Math.max(cols, line.length());
             }
             reader.close();
-            maze = new int[row][cols];
 
             this.numRows = row;
             this.numCols = cols;
+            maze = new Border[numRows][numCols];
 
+            // Reopen file to read maze content
+            reader = new BufferedReader(new FileReader(mazeFile));
             row = 0;
 
-            reader = new BufferedReader(new FileReader(mazeFile));
-
-            //Adding to 2D array that represents the maze. 1 is a wall, 0 is a path
+            // Initialize the maze
             while ((line = reader.readLine()) != null) {
-                for (int idx = 0; idx < line.length(); idx++) {
-                    if (line.charAt(idx) == '#') {
-                        maze[row][idx] = 1;
-                    } else if (line.charAt(idx) == ' ') {
-                        maze[row][idx] = 0;
+                for (int idx = 0; idx < numCols; idx++) {
+                    if (idx < line.length() && line.charAt(idx) == '#') {
+                        maze[row][idx] = Border.WALL;
+                    } else {
+                        maze[row][idx] = Border.PASS;
                     }
                 }
                 row++;
-            } 
-        } catch(Exception e) {
-            System.out.println("An error has occurred");
+            }
+            reader.close();
+
+            // Print the maze for debugging
+            for (int i = 0; i < numRows; i++) {
+                for (int j = 0; j < numCols; j++) {
+                    System.out.print(maze[i][j] + " ");
+                }
+                System.out.println();
+            }
+
+        } catch (Exception e) {
+            System.out.println("An error has occurred while reading the maze file.");
         }
     }
 
-    public int[] getEntry(){
-        for(int i = 0; i < maze.length; i++){
-            if(maze[i][0] == 0){
-                int entry[] = {i, 0};
-                return entry;
+    public int[] getEntry() {
+        for (int i = 0; i < numRows; i++) {
+            if (maze[i][0] == Border.PASS) {
+                return new int[]{i, 0};
             }
         }
         return null;
     }
 
-    public int[] getExit(){
-        for(int i = 0; i < maze.length; i++){
-            if(maze[i][maze[0].length - 1] == 0){
-                int exit[] = {i, maze[0].length - 1};
-                return exit;
+    public int[] getExit() {
+        for (int i = 0; i < numRows; i++) {
+            if (maze[i][numCols - 1] == Border.PASS) {
+                return new int[]{i, numCols - 1};
             }
         }
         return null;
-
     }
 
-    public int[][] getMaze(){
+    public Border[][] getMaze() {
         return this.maze;
     }
 
-    public String getPath(){
+    public String getPath() {
         return "5F";
+    }
+
+    enum Border {
+        WALL, PASS;
     }
 }
