@@ -16,41 +16,7 @@ public class Path{
         this.path = path;
     }
 
-    public String isValid(){
-
-        int r = maze.getEntry()[0];
-        int c = maze.getEntry()[1];
-
-        int exitRow = maze.getExit()[0];
-        int exitCol = maze.getExit()[1];
-
-        int i = 0;
-
-        String expandedPath = getCanonPath();
-
-        if (expandedPath.length() != exitCol+1){
-            return "Incorrect path";
-        }
-
-        while (i < expandedPath.length() && r <= exitRow && c <= exitCol){
-
-            if (expandedPath.charAt(i) == 'F'){
-                i++;
-            } else {
-                return "Incorrect path";
-            }
-
-            if (r == exitRow && c == exitCol){
-                return "Correct path";
-            }
-            c++; 
-        }
-
-        return "Incorrect path";
-    }
-
-    private String getCanonPath(){
-
+    public String canonPath(){
         String factorPath[] = path.split(" ");
         StringBuffer cPath = new StringBuffer("");
 
@@ -70,5 +36,9 @@ public class Path{
         }
 
         return cPath.toString();
+    }
+
+    public Maze maze(){
+        return maze;
     }
 }

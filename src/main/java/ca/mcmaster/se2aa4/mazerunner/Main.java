@@ -6,6 +6,7 @@ import java.io.FileReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.commons.cli.*;
+import ca.mcmaster.se2aa4.mazerunner.Direction;
 
 // Uses straight maze for the MVP
 
@@ -31,24 +32,20 @@ public class Main {
             String inputFile = cmd.getOptionValue("i");
             String mazePath = cmd.getOptionValue("p");
 
-            //Checking for correct maze file
-            if (inputFile.equals("examples/straight.maz.txt")) {
-                logger.info("**** Reading the maze from file " + inputFile);
+        //Checking for correct maze file
+            logger.info("**** Reading the maze from file " + inputFile);
 
-                Maze maze = new Maze(inputFile);
-
-                if (mazePath == null) {
-                    logger.info("**** Computing path");
-                    logger.info(maze.getPath());
-                } else {
-                    logger.info("**** Verifying path");
-                    Path path = new Path(maze, mazePath);
-                    logger.info(path.isValid());
-                }
+            Maze maze = new Maze(inputFile);
+            Compass compass = new Compass();
+            PathFinder pathFinder = new PathFinder(maze, compass);
+            if (mazePath == null) {
+                logger.info("**** Computing path");
+                System.out.println(pathFinder.getPath());
             } else {
-                logger.error("**** Invalid maze file. Use straight maze and ensure the file path is correct.");
-            }
-
+                Path path = new Path(maze, mazePath);
+                logger.info("**** Verifying path");
+                System.out.println("test");
+            }        
 
         } catch(Exception e) {
             logger.error("/!\\ An error has occurred /!\\");
