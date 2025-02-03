@@ -19,6 +19,14 @@ public class PathTraverse extends PathMovement{
     }
 
     private String canonPath(){
+
+        path = path.replaceAll("\\s+", "");
+        int count = 0;
+
+        if (path.matches("^[FRL]+$")){
+            return path;
+        } 
+
         StringBuilder result = new StringBuilder();
         StringBuilder numBuffer = new StringBuilder();
 
@@ -28,7 +36,11 @@ public class PathTraverse extends PathMovement{
             } else if (Character.isSpaceChar(c)){
                 continue;
             } else {
-                int count = Integer.valueOf(numBuffer.toString());
+                if (numBuffer.length() == 0){
+                    count = 1;
+                } else {
+                    count = Integer.valueOf(numBuffer.toString());
+                }
                 numBuffer.setLength(0);
                 result.append(String.valueOf(c).repeat(count));
             }

@@ -21,18 +21,29 @@ public class Main {
 
         //Adding maze input and path input options
         options.addOption("i", "input", true, "Maze file to read");
-        options.addOption("p", "path", true, "Potential maze path");
+        
+        // Change: Using hasArgs() to capture multiple arguments for the path
+        options.addOption(Option.builder("p")
+                .longOpt("path")
+                .hasArgs()  // Capture multiple arguments after -p
+                .desc("Potential maze path")
+                .build());
 
-        CommandLineParser parser = new DefaultParser();    
+        CommandLineParser parser = new DefaultParser();
 
         try {
 
             CommandLine cmd = parser.parse(options, args);
 
             String inputFile = cmd.getOptionValue("i");
-            String mazePath = cmd.getOptionValue("p");
 
-        //Checking for correct maze file
+            // Change: Collect all arguments after -p as an array
+            String[] mazePathArgs = cmd.getOptionValues("p");
+
+            // Combine them into a single string, if necessary
+            String mazePath = (mazePathArgs != null) ? String.join(" ", mazePathArgs) : null;
+
+            //Checking for correct maze file
             logger.info("**** Reading the maze from file " + inputFile);
 
             Maze maze = new Maze(inputFile);
@@ -47,11 +58,13 @@ public class Main {
                 PathTraverse pathTraverse = new PathTraverse(mazePath, maze, compass);
                 logger.info("**** Verifying path");
                 System.out.println(pathTraverse.traverse());
-            }        
+            }
 
         } catch(Exception e) {
             logger.error("/!\\ An error has occurred /!\\");
-            logger.error(e.getMessage());
+
+            // Logging more details
+            logger.error(e.getMessage(), e);
         }
         logger.info("** End of MazeRunner");
 
