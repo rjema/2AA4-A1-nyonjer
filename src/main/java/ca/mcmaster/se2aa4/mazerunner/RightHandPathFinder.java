@@ -19,7 +19,7 @@ public class RightHandPathFinder extends PathMovement{
     private String calculatePath() {
         StringBuffer pathBuffer = new StringBuffer("");
         super.moveForward();
-        pathBuffer.append("F ");
+        pathBuffer.append("F");
         while(!entry.isExit(row, col)){
             if (handOnWall()){
                 if (super.canMoveForward()){
