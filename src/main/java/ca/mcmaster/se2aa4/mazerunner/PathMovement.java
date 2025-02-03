@@ -17,12 +17,19 @@ public abstract class PathMovement{
 
     protected boolean canMoveForward(){
         if (compass.getDirection() == Direction.NORTH){
+            if (row == 0) return false;
             return maze.getMaze()[row-1][col] == Passage.PASS ? true : false;
+        
         } else if (compass.getDirection() == Direction.EAST){
+            if (col == maze.width()-1) return false;
             return maze.getMaze()[row][col+1] == Passage.PASS ? true : false;
+        
         } else if (compass.getDirection() == Direction.SOUTH){
+            if (row == maze.height()-1) return false;
             return maze.getMaze()[row+1][col] == Passage.PASS ? true : false;
+        
         } else {
+            if (col == 0) return false;
             return maze.getMaze()[row][col-1] == Passage.PASS ? true : false;
         }
     }

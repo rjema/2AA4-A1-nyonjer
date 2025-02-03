@@ -7,10 +7,11 @@ public class PathTraverse extends PathMovement{
 
     public PathTraverse(String path, Maze maze, Compass compass){
         super(maze, compass);
-        if (!path.matches("^[0-9FLR]+$")){
+        if (!path.matches("^[0-9FLR\\s]+$")){
             throw new IllegalArgumentException("Invalid path characters. F, L, R and numerical characters only.");
         }
         this.path = path;
+        this.path = canonPath();
         this.leftRow = entry.leftRow();
         this.leftCol = entry.leftCol();
         this.rightRow = entry.rightRow();   
@@ -35,8 +36,6 @@ public class PathTraverse extends PathMovement{
                 cPath.append(factorPath[i]);
             }
         }
-        System.out.println(cPath.toString());
-
         return cPath.toString();
     }
 
