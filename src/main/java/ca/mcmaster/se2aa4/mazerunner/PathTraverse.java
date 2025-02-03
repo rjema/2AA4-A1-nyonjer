@@ -58,7 +58,9 @@ public class PathTraverse extends PathMovement{
             }
         }
 
-        if (entry.isExit(row, col)){
+        if (row == leftRow && col == leftCol){
+            return false;
+        } else if (entry.isExit(row, col)){
             return true;
         }
         return false;
@@ -83,8 +85,9 @@ public class PathTraverse extends PathMovement{
                 compass.turnLeft();
             }
         }
-
-        if (entry.isExit(row, col)){
+        if (row == rightRow && col == rightCol){
+            return false;
+        }else if (entry.isExit(row, col)){
             return true;
         }
         return false;
