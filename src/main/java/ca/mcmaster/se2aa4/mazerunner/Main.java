@@ -38,13 +38,15 @@ public class Main {
             Maze maze = new Maze(inputFile);
             Compass compass = new Compass();
             PathFinder pathFinder = new PathFinder(maze, compass);
+
             if (mazePath == null) {
                 logger.info("**** Computing path");
                 System.out.println(pathFinder.getPath());
             } else {
-                Path path = new Path(maze, mazePath);
+
+                PathTraverse pathTraverse = new PathTraverse(mazePath, maze, compass);
                 logger.info("**** Verifying path");
-                System.out.println("test");
+                System.out.println(pathTraverse.traverse());
             }        
 
         } catch(Exception e) {

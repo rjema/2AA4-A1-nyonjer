@@ -46,7 +46,7 @@ public class MazeEntry{
     }
 
     public boolean isExit(int row, int col){
-        return (row == rightRow && col == rightCol);
+        return (row == rightRow && col == rightCol) || (row == leftRow && col == leftCol);
     }
 
 }

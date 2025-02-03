@@ -1,58 +1,102 @@
-// // package ca.mcmaster.se2aa4.mazerunner;
+package ca.mcmaster.se2aa4.mazerunner;
 
-// public class PathTraverse {
-//     private Path path;
-//     private Runner runner;
+import ca.mcmaster.se2aa4.mazerunner.Direction;
 
-//     public PathTraverse(Path path, Runner runner){
-//         this.maze = maze;
-//         this.runner = runner;
-//     }
+public class PathTraverse extends PathMovement{
+    private int leftRow, rightRow, leftCol, rightCol;
 
-    // public boolean leftTraversal(){
-    //     int r = entry.leftRow();
-    //     int c = entry.leftCol();
+    public PathTraverse(String path, Maze maze, Compass compass){
+        super(maze, compass);
+        if (!path.matches("^[0-9FLR]+$")){
+            throw new IllegalArgumentException("Invalid path characters. F, L, R and numerical characters only.");
+        }
+        this.path = path;
+        this.leftRow = entry.leftRow();
+        this.leftCol = entry.leftCol();
+        this.rightRow = entry.rightRow();   
+        this.rightCol = entry.rightCol();
+    }
 
-    //     int exitRow = entry.rightRow();
-    //     int exitCol = entry.rightCol();
+    private String canonPath(){
+        String factorPath[] = path.split(" ");
+        StringBuffer cPath = new StringBuffer("");
 
-    //     int i = 0;
+        for (int i=0; i < factorPath.length; i++){
 
-    //     String expandedPath = path.getCanonPath();
+            if (factorPath[i].charAt(0) >= '2' && factorPath[i].charAt(0) <= '9'){
 
-    //     if (expandedPath.length() != exitCol+1){
-    //         return "Incorrect path";
-    //     }
+                int count = Character.getNumericValue(factorPath[i].charAt(0)); 
 
-    //     while (i < expandedPath.length() && r <= exitRow && c <= exitCol){
+                //Add to canonical path string based on the number of times the character is to be repeated
+                for (int j=0; j < count; j++){
+                    cPath.append(factorPath[i].charAt(1));
+                }
+            } else {
+                cPath.append(factorPath[i]);
+            }
+        }
+        System.out.println(cPath.toString());
 
-    //         if (expandedPath.charAt(i) == 'F'){
-    //             i++;
-    //         } else {
-    //             return "Incorrect path";
-    //         }
+        return cPath.toString();
+    }
 
-    //         if (r == exitRow && c == exitCol){
-    //             return "Correct path";
-    //         }
-    //         c++; 
-    //     }
+    private boolean leftTraversal(){
+        row = leftRow;
+        col = leftCol;
 
-    //     return "Incorrect path";
-    // }
+        for(int i = 0; i<path.length(); i++){
+            if (path.charAt(i) == 'F'){
+                if (super.canMoveForward()){
+                    super.moveForward();
+                } else {
+                    return false;
+                }
+            } else if (path.charAt(i) == 'R'){
+                compass.turnRight();
+            } else {
+                compass.turnLeft();
+            }
+        }
 
-//     public boolean rightTraversal(){
-//         return false;
-//     }
+        if (entry.isExit(row, col)){
+            return true;
+        }
+        return false;
+    }
 
-//     public String traverse(){
-//         if (leftTraversal()){
-//             return "Correct path";
-//         } else if (rightTraversal()){
-//             return "Correct path";
-//         } else {
-//             return "Incorrect path";
-//         }
-//     }
-// }
+    private boolean rightTraversal(){
 
+        row = rightRow;
+        col = rightCol;
+        compass.setDirection(Direction.WEST);
+
+        for(int i = 0; i<path.length(); i++){
+            if (path.charAt(i) == 'F'){
+                if (super.canMoveForward()){
+                    super.moveForward();
+                } else {
+                    return false;
+                }
+            } else if (path.charAt(i) == 'R'){
+                compass.turnRight();
+            } else {
+                compass.turnLeft();
+            }
+        }
+
+        if (entry.isExit(row, col)){
+            return true;
+        }
+        return false;
+    }
+
+    public String traverse(){
+        if (leftTraversal()){
+            return "Correct path";
+        } else if (rightTraversal()){
+            return "Correct path";
+        } else {
+            return "Incorrect path";
+        }
+    }
+}

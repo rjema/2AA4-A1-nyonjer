@@ -21,4 +21,8 @@ public class Compass{
         return this.direction;
     }
 
+    public void setDirection(Direction direction){
+        this.direction = direction;
+    }
+
 }

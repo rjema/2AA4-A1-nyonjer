@@ -2,17 +2,10 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.*;
 
-public class PathFinder {
-    private Maze maze;
-    private Compass compass;
-    private int row, col;
-    private MazeEntry entry;
-    private String path;
+public class PathFinder extends PathMovement{
 
     public PathFinder(Maze maze, Compass compass) {
-        this.maze = maze;
-        this.compass = compass;
-        this.entry = new MazeEntry(maze);
+        super(maze, compass);
         this.row = entry.leftRow();
         this.col = entry.leftCol();
         this.path = calculatePath();
@@ -25,12 +18,12 @@ public class PathFinder {
 
     private String calculatePath() {
         StringBuffer pathBuffer = new StringBuffer("");
-        moveForward();
+        super.moveForward();
         pathBuffer.append("F ");
         while(!entry.isExit(row, col)){
             if (handOnWall()){
-                if (canMoveForward()){
-                    moveForward();
+                if (super.canMoveForward()){
+                    super.moveForward();
                     pathBuffer.append("F");
                 } else {
                     compass.turnLeft();
@@ -38,7 +31,7 @@ public class PathFinder {
                 }
             } else {
                 compass.turnRight();
-                moveForward();
+                super.moveForward();
                 pathBuffer.append("RF");
             }
         }
@@ -54,30 +47,6 @@ public class PathFinder {
             return maze.getMaze()[row][col-1] == Passage.WALL ? true : false;
         } else {
             return maze.getMaze()[row-1][col] == Passage.WALL ? true : false;
-        }
-    }
-
-    private boolean canMoveForward(){
-        if (compass.getDirection() == Direction.NORTH){
-            return maze.getMaze()[row-1][col] == Passage.PASS ? true : false;
-        } else if (compass.getDirection() == Direction.EAST){
-            return maze.getMaze()[row][col+1] == Passage.PASS ? true : false;
-        } else if (compass.getDirection() == Direction.SOUTH){
-            return maze.getMaze()[row+1][col] == Passage.PASS ? true : false;
-        } else {
-            return maze.getMaze()[row][col-1] == Passage.PASS ? true : false;
-        }
-    }
-
-    private void moveForward(){
-        if (compass.getDirection() == Direction.NORTH){
-            row--;
-        } else if (compass.getDirection() == Direction.EAST){
-            col++;
-        } else if (compass.getDirection() == Direction.SOUTH){
-            row++;
-        } else {
-            col--;
         }
     }
 
