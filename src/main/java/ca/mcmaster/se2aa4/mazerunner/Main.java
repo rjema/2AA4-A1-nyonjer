@@ -37,7 +37,7 @@ public class Main {
 
             Maze maze = new Maze(inputFile);
             Compass compass = new Compass();
-            PathFinder pathFinder = new PathFinder(maze, compass);
+            RightHandPathFinder pathFinder = new RightHandPathFinder(maze, compass);
 
             if (mazePath == null) {
                 logger.info("**** Computing path");

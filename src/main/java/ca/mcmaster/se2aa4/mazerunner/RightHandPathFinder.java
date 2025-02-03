@@ -2,9 +2,9 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 import java.util.*;
 
-public class PathFinder extends PathMovement{
+public class RightHandPathFinder extends PathMovement{
 
-    public PathFinder(Maze maze, Compass compass) {
+    public RightHandPathFinder(Maze maze, Compass compass) {
         super(maze, compass);
         this.row = entry.leftRow();
         this.col = entry.leftCol();
@@ -50,13 +50,11 @@ public class PathFinder extends PathMovement{
         }
     }
 
-    private String factorisePath(){
-
+    private String factorisePath() {
         if (path == null || path.isEmpty()) return "";
-
+        
         StringBuffer result = new StringBuffer();
         int count = 1;
-
         for (int i = 1; i < path.length(); i++) {
             if (path.charAt(i) == path.charAt(i - 1)) {
                 count++;
@@ -65,11 +63,11 @@ public class PathFinder extends PathMovement{
                 count = 1;
             }
         }
-
         result.append(count > 1 ? count : "").append(path.charAt(path.length() - 1));
-
         return result.toString().trim();
-    }
+    } 
+
+
 }  
 
     

@@ -19,24 +19,22 @@ public class PathTraverse extends PathMovement{
     }
 
     private String canonPath(){
-        String factorPath[] = path.split(" ");
-        StringBuffer cPath = new StringBuffer("");
+        StringBuilder result = new StringBuilder();
+        StringBuilder numBuffer = new StringBuilder();
 
-        for (int i=0; i < factorPath.length; i++){
-
-            if (factorPath[i].charAt(0) >= '2' && factorPath[i].charAt(0) <= '9'){
-
-                int count = Character.getNumericValue(factorPath[i].charAt(0)); 
-
-                //Add to canonical path string based on the number of times the character is to be repeated
-                for (int j=0; j < count; j++){
-                    cPath.append(factorPath[i].charAt(1));
-                }
+        for (char c: path.toCharArray()){
+            if (Character.isDigit(c)){
+                numBuffer.append(c);
+            } else if (Character.isSpaceChar(c)){
+                continue;
             } else {
-                cPath.append(factorPath[i]);
+                int count = Integer.valueOf(numBuffer.toString());
+                numBuffer.setLength(0);
+                result.append(String.valueOf(c).repeat(count));
             }
         }
-        return cPath.toString();
+        return result.toString();
+
     }
 
     private boolean leftTraversal(){
