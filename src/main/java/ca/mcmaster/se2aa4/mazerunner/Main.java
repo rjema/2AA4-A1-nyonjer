@@ -1,14 +1,8 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.commons.cli.*;
-import ca.mcmaster.se2aa4.mazerunner.Direction;
-
-// Uses straight maze for the MVP
 
 public class Main {
 
@@ -19,33 +13,62 @@ public class Main {
 
         Options options = new Options();
 
-        //Adding maze input and path input options
+        // Adding maze input and path input options
         options.addOption("i", "input", true, "Maze file to read");
-        
-        // Change: Using hasArgs() to capture multiple arguments for the path
         options.addOption(Option.builder("p")
                 .longOpt("path")
-                .hasArgs()  // Capture multiple arguments after -p
+                .hasArgs()
                 .desc("Potential maze path")
                 .build());
 
         CommandLineParser parser = new DefaultParser();
 
         try {
-
             CommandLine cmd = parser.parse(options, args);
 
+            // Ensure -i is provided with a valid argument
+            if (!cmd.hasOption("i")) {
+                logger.error("Missing required argument: -i (input file).\nUsage: -i [file path] -p [maze path] (optional)");
+                System.err.println("Error: You must specify a maze file using -i [file path].");
+                System.exit(1);
+            }
+            
             String inputFile = cmd.getOptionValue("i");
+            if (inputFile == null || inputFile.trim().isEmpty()) {
+                logger.error("No file specified after '-i'.");
+                System.err.println("Error: Missing file path after '-i'.");
+                System.exit(1);
+            }
+            
+            // Ensure no unexpected trailing arguments
+            if (!cmd.hasOption("p") && !cmd.getArgList().isEmpty()) {
+                logger.error("Unexpected arguments detected! Did you forget to use '-p' before specifying the path?");
+                System.err.println("Error: Extra arguments found. Use format: -i [file path] -p [maze path]");
+                System.exit(1);
+            }
+            
+            // Ensure -p is not provided without arguments
+            if (cmd.hasOption("p") && (cmd.getOptionValues("p") == null || cmd.getOptionValues("p").length == 0)) {
+                logger.error("Missing path argument after '-p'.");
+                System.err.println("Error: No path provided after '-p'. Use format: -i [file path] -p [maze path]");
+                System.exit(1);
+            }
+            
+            // Ensure -i is not provided alone without -p but with extra arguments
+            if (cmd.hasOption("i") && cmd.getArgList().size() > 0) {
+                logger.error("Unexpected arguments detected after '-i' without '-p'.");
+                System.err.println("Error: Extra arguments found after '-i'. Use format: -i [file path] -p [maze path]");
+                System.exit(1);
+            }
 
-            // Change: Collect all arguments after -p as an array
-            String[] mazePathArgs = cmd.getOptionValues("p");
+            // Retrieve maze path if provided
+            String mazePath = null;
+            if (cmd.hasOption("p")) {
+                mazePath = String.join(" ", cmd.getOptionValues("p"));
+            }
 
-            // Combine them into a single string, if necessary
-            String mazePath = (mazePathArgs != null) ? String.join(" ", mazePathArgs) : null;
-
-            //Checking for correct maze file
+            // Checking for correct maze file
             logger.info("**** Reading the maze from file " + inputFile);
-
             Maze maze = new Maze(inputFile);
             Compass compass = new Compass();
             RightHandPathFinder pathFinder = new RightHandPathFinder(maze, compass);
@@ -54,19 +77,18 @@ public class Main {
                 logger.info("**** Computing path");
                 System.out.println(pathFinder.getPath());
             } else {
-
                 PathTraverse pathTraverse = new PathTraverse(mazePath, maze, compass);
                 logger.info("**** Verifying path");
                 System.out.println(pathTraverse.traverse());
             }
 
-        } catch(Exception e) {
-            logger.error("/!\\ An error has occurred /!\\");
-
-            // Logging more details
+        } catch (Exception e) {
+            logger.error("/!\\ An error has occurred /!/\\");
             logger.error(e.getMessage(), e);
+            System.err.println("Error: " + e.getMessage());
+            System.exit(1);
         }
-        logger.info("** End of MazeRunner");
 
+        logger.info("** End of MazeRunner");
     }
 }
