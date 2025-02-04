@@ -50,10 +50,8 @@ public class Maze {
             row++;
         }
         reader.close();
-
-
     }
-
+    
     public Passage[][] getMaze() {
         return this.maze;
     }

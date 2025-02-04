@@ -1,5 +1,6 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 public enum Passage {
-        WALL, PASS;
-    }
+    //Represent the maze 
+    WALL, PASS;
+}

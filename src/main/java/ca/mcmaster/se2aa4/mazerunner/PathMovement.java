@@ -16,6 +16,7 @@ public abstract class PathMovement{
     }
 
     protected boolean canMoveForward(){
+        //Checks if forward tile is a passage depending on compass direction
         if (compass.getDirection() == Direction.NORTH){
             if (row == 0) return false;
             return maze.getMaze()[row-1][col] == Passage.PASS ? true : false;
@@ -35,6 +36,7 @@ public abstract class PathMovement{
     }
 
     protected void moveForward(){
+        // Moves one tile forward based on compass direction
         if (compass.getDirection() == Direction.NORTH){
             row--;
         } else if (compass.getDirection() == Direction.EAST){

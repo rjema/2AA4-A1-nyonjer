@@ -7,6 +7,7 @@ public class PathTraverse extends PathMovement{
 
     public PathTraverse(String path, Maze maze, Compass compass){
         super(maze, compass);
+        // Checks if path sequence contains illegal characters
         if (!path.matches("^[0-9FLR\\s]+$")){
             throw new IllegalArgumentException("Invalid path characters. F, L, R and numerical characters only.");
         }
@@ -19,10 +20,12 @@ public class PathTraverse extends PathMovement{
     }
 
     private String canonPath(){
+        //Returns canonical path representation
 
         path = path.replaceAll("\\s+", "");
         int count = 0;
 
+        // Checks if path is already canonically represented
         if (path.matches("^[FRL]+$")){
             return path;
         } 
@@ -31,6 +34,7 @@ public class PathTraverse extends PathMovement{
         StringBuilder numBuffer = new StringBuilder();
 
         for (char c: path.toCharArray()){
+            //Finding digits that make up integer representing sequence character count
             if (Character.isDigit(c)){
                 numBuffer.append(c);
             } else if (Character.isSpaceChar(c)){
@@ -42,7 +46,7 @@ public class PathTraverse extends PathMovement{
                     count = Integer.valueOf(numBuffer.toString());
                 }
                 numBuffer.setLength(0);
-                result.append(String.valueOf(c).repeat(count));
+                result.append(String.valueOf(c).repeat(count)); // Adds character based on the number written in front of it
             }
         }
         return result.toString();
@@ -50,6 +54,7 @@ public class PathTraverse extends PathMovement{
     }
 
     private boolean leftTraversal(){
+        // Traverses maze from left to right
         row = leftRow;
         col = leftCol;
 
@@ -76,7 +81,9 @@ public class PathTraverse extends PathMovement{
     }
 
     private boolean rightTraversal(){
+        // Traverses maze from right to left
 
+        //Set direction and position to west end
         row = rightRow;
         col = rightCol;
         compass.setDirection(Direction.WEST);
@@ -103,6 +110,7 @@ public class PathTraverse extends PathMovement{
     }
 
     public String traverse(){
+        //Checks if users input traverses maze from left to right or right to left correctly
         if (leftTraversal()){
             return "Correct path";
         } else if (rightTraversal()){
