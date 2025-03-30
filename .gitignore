@@ -16,3 +16,12 @@ target
 
 # MacOS X bs
 .DS_Store
+
+# Other Files
+CommandFactory.java
+ECommand.java
+MoveCommand.java
+MoveForward.java
+Observer.java
+TurnLeft.java
+TurnRight.java
