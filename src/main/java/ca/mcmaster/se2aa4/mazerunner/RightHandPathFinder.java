@@ -26,18 +26,14 @@ public class RightHandPathFinder extends PathMovement{
 
         // Continues moving until the exit is found
         while(!entry.isExit(row, col)){
-            if (handOnWall()){
-                if (super.canMoveForward()){ 
-                    super.moveForward();
-                    pathBuffer.append("F");
-                } else { 
-                    compass.turnLeft();
-                    pathBuffer.append("L");
-                }
-            } else {
-                compass.turnRight();
+            if (handOnWall() && super.canMoveForward()){
                 super.moveForward();
-                pathBuffer.append("RF");
+                pathBuffer.append("F");
+            } else {
+                commandFactory.getPathfinderCommand(handOnWall(), pathBuffer).execute();
+                if (!handOnWall()){
+                    super.moveForward();
+                }
             }
         }
         return pathBuffer.toString(); // Returns the calculated path as a string

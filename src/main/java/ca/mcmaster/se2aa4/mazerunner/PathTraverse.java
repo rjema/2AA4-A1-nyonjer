@@ -65,10 +65,8 @@ public class PathTraverse extends PathMovement{
                 } else {
                     return false;
                 }
-            } else if (path.charAt(i) == 'R'){
-                compass.turnRight();
             } else {
-                compass.turnLeft();
+                commandFactory.getTraverseCommand(path.charAt(i)).execute();
             }
         }
 
@@ -95,10 +93,8 @@ public class PathTraverse extends PathMovement{
                 } else {
                     return false;
                 }
-            } else if (path.charAt(i) == 'R'){
-                compass.turnRight();
             } else {
-                compass.turnLeft();
+                commandFactory.getTraverseCommand(path.charAt(i)).execute();
             }
         }
         if (row == rightRow && col == rightCol){

@@ -5,14 +5,16 @@ import ca.mcmaster.se2aa4.mazerunner.Direction;
 public abstract class PathMovement{
     protected String path;
     protected Maze maze;
-    protected Compass compass;
     protected MazeEntry entry;
+    protected CommandFactory commandFactory;
+    protected Compass compass;
     protected int row, col;
 
     public PathMovement(Maze maze, Compass compass){
         this.maze = maze;
         this.compass = compass;
         this.entry = new MazeEntry(maze);
+        this.commandFactory = new CommandFactory(compass);
     }
 
     protected boolean canMoveForward(){
