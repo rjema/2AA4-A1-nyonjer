@@ -15,7 +15,7 @@ public abstract class PathMovement{
         this.compass = compass;
         this.entry = new MazeEntry(maze);
         this.turnCommandProvider = new TurnCommandProvider(new TurnLeftCommand(compass), new TurnRightCommand(compass));
-        this.mazeCommandExecutor = new MazeCommandExecutor(new TraversalDecision(turnCommandProvider), new PathfinderDecision(turnCommandProvider));
+        this.mazeCommandExecutor = new MazeCommandExecutor(new TraversalTurnDecision(turnCommandProvider), new PathfinderTurnDecision(turnCommandProvider));
     }
 
     protected boolean canMoveForward(){

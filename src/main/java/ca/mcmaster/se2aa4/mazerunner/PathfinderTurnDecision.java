@@ -1,9 +1,9 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-public class PathfinderDecision implements PathfindingStrategy{
+public class PathfinderTurnDecision implements PathfinderTurnStrategy{
     private final TurnCommandProvider turnCommandProvider;
 
-    public PathfinderDecision(TurnCommandProvider turnCommandProvider){
+    public PathfinderTurnDecision(TurnCommandProvider turnCommandProvider){
         this.turnCommandProvider = turnCommandProvider;
     }
 

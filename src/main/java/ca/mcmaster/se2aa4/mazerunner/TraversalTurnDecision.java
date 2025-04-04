@@ -1,9 +1,9 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-public class TraversalDecision implements TraversalStrategy{
+public class TraversalTurnDecision implements TraversalTurnStrategy{
     private final TurnCommandProvider turnCommandProvider;
 
-    public TraversalDecision(TurnCommandProvider turnCommandProvider){
+    public TraversalTurnDecision(TurnCommandProvider turnCommandProvider){
         this.turnCommandProvider = turnCommandProvider;
     }
 
