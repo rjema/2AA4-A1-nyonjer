@@ -1,13 +1,13 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 public class TraversalTurnDecision implements TraversalTurnStrategy{
-    private final TurnCommandProvider turnCommandProvider;
+    private final TurnCommandSource turnCommandSource;
 
-    public TraversalTurnDecision(TurnCommandProvider turnCommandProvider){
-        this.turnCommandProvider = turnCommandProvider;
+    public TraversalTurnDecision(TurnCommandSource turnCommandSource){
+        this.turnCommandSource = turnCommandSource;
     }
 
     public TurnCommand decideCommand(char moveLetter){
-        return (moveLetter == 'R') ? turnCommandProvider.getRightCommand() : turnCommandProvider.getLeftCommand();
+        return (moveLetter == 'R') ? turnCommandSource.getRightCommand() : turnCommandSource.getLeftCommand();
     }
 }

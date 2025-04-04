@@ -1,6 +1,6 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-public class TurnCommandProvider{
+public class TurnCommandProvider implements TurnCommandSource{
     private final TurnCommand leftCommand;
     private final TurnCommand rightCommand;
 
