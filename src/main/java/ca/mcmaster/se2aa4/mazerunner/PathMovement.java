@@ -5,7 +5,7 @@ public abstract class PathMovement{
     protected Maze maze;
     protected MazeEntry entry;
     protected Compass compass;
-    protected CommandProvider commandProvider;
+    protected TurnCommandProvider turnCommandProvider;
     protected MazeCommandExecutor mazeCommandExecutor;
     protected int row;
     protected int col;
@@ -14,15 +14,15 @@ public abstract class PathMovement{
         this.maze = maze;
         this.compass = compass;
         this.entry = new MazeEntry(maze);
-        this.commandProvider = new CommandProvider(compass);
-        this.mazeCommandExecutor = new MazeCommandExecutor(new TraversalDecision(commandProvider), new PathfinderDecision(commandProvider));
+        this.turnCommandProvider = new TurnCommandProvider(new TurnLeftCommand(compass), new TurnRightCommand(compass));
+        this.mazeCommandExecutor = new MazeCommandExecutor(new TraversalDecision(turnCommandProvider), new PathfinderDecision(turnCommandProvider));
     }
 
     protected boolean canMoveForward(){
         //Checks if forward tile is a passage depending on compass direction
         if (compass.getDirection() == Direction.NORTH){
             return (row != 0) && (maze.getMaze()[row-1][col] == Passage.PASS);
-        
+
         } else if (compass.getDirection() == Direction.EAST){
             return (col != maze.width()-1) && (maze.getMaze()[row][col+1] == Passage.PASS);
         
