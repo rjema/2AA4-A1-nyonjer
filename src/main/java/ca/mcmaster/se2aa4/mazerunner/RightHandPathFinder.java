@@ -1,6 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.util.*;
 
 public class RightHandPathFinder extends PathMovement{
 
@@ -30,7 +29,7 @@ public class RightHandPathFinder extends PathMovement{
                 super.moveForward();
                 pathBuffer.append("F");
             } else {
-                commandFactory.getPathfinderCommand(handOnWall(), pathBuffer).execute();
+                mazeCommandExecutor.executePathfinding(handOnWall(), pathBuffer);
                 if (!handOnWall()){
                     super.moveForward();
                 }
@@ -43,19 +42,19 @@ public class RightHandPathFinder extends PathMovement{
     private boolean handOnWall(){
         // Check for wall in the direction the compass is facing
         if (compass.getDirection() == Direction.NORTH){
-            return maze.getMaze()[row][col+1] == Passage.WALL ? true : false;
+            return maze.getMaze()[row][col+1] == Passage.WALL;
         } else if (compass.getDirection() == Direction.EAST){
-            return maze.getMaze()[row+1][col] == Passage.WALL ? true : false;
+            return maze.getMaze()[row+1][col] == Passage.WALL;
         } else if (compass.getDirection() == Direction.SOUTH){
-            return maze.getMaze()[row][col-1] == Passage.WALL ? true : false;
+            return maze.getMaze()[row][col-1] == Passage.WALL;
         } else { // Direction is WEST
-            return maze.getMaze()[row-1][col] == Passage.WALL ? true : false;
+            return maze.getMaze()[row-1][col] == Passage.WALL;
         }
     }
 
     // Factorizes the path by combining consecutive moves into a compact format
     private String factorisePath() {
-        if (path == null || path.isEmpty()) return "";
+        if (path == null || path.isEmpty()) {return "";}
         
         StringBuffer result = new StringBuffer(); 
         int count = 1; 

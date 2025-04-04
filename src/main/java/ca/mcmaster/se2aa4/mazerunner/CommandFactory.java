@@ -1,29 +1,24 @@
 package ca.mcmaster.se2aa4.mazerunner;
-
+// unused
 public class CommandFactory{
-    private TurnLeftCommand turnLeft;
-    private TurnRightCommand turnRight;
+    private final TurnCommand leftTurnCommand;
+    private final TurnCommand rightTurnCommand;
 
     public CommandFactory(Compass compass){
-        this.turnLeft = new TurnLeftCommand(compass);
-        this.turnRight = new TurnRightCommand(compass);
+        this.leftTurnCommand = new TurnLeftCommand(compass);
+        this.rightTurnCommand = new TurnRightCommand(compass);
+    }
+    public TurnCommand createTraverseCommand(char moveLetter, Compass compass){
+        return moveLetter == 'R'? new TurnRightCommand(compass) : new TurnLeftCommand(compass);
     }
 
-    public TurnCommand getTraverseCommand(char moveLetter){
-        if (moveLetter == 'R'){
-            return turnRight;
-        } else {
-            return turnLeft;
-        }
-    }
-
-    public TurnCommand getPathfinderCommand(boolean handOnWall, StringBuffer pathBuffer){
+    public TurnCommand createPathfinderCommand(boolean handOnWall, StringBuffer pathBuffer, Compass compass){
         if (handOnWall){
             pathBuffer.append("L");
-            return turnLeft;
+            return new TurnLeftCommand(compass);
         } else {
             pathBuffer.append("RF");
-            return turnRight;
+            return new TurnRightCommand(compass);
         }
     }
 }

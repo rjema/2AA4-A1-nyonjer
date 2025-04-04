@@ -1,13 +1,13 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import ca.mcmaster.se2aa4.mazerunner.Passage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.File;
 
 public class Maze {
     private Passage[][] maze;
-    private int numRows, numCols;
+    private int numRows;
+    private int numCols;
 
     public Maze(String mazeFile) throws Exception{
         loadMaze(mazeFile);
@@ -21,7 +21,8 @@ public class Maze {
         
         BufferedReader reader = new BufferedReader(new FileReader(mazeFile));
         String line;
-        int row = 0, cols = 0;
+        int row = 0;
+        int cols = 0;
 
         // Determine the dimensions of the maze
         while ((line = reader.readLine()) != null) {

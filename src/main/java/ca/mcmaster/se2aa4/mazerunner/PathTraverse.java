@@ -1,9 +1,10 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import ca.mcmaster.se2aa4.mazerunner.Direction;
-
 public class PathTraverse extends PathMovement{
-    private int leftRow, rightRow, leftCol, rightCol;
+    private int leftRow;
+    private int rightRow;
+    private int leftCol;
+    private int rightCol;
 
     public PathTraverse(String path, Maze maze, Compass compass){
         super(maze, compass);
@@ -66,7 +67,7 @@ public class PathTraverse extends PathMovement{
                     return false;
                 }
             } else {
-                commandFactory.getTraverseCommand(path.charAt(i)).execute();
+                mazeCommandExecutor.executeTraversal(path.charAt(i));
             }
         }
 
@@ -94,7 +95,7 @@ public class PathTraverse extends PathMovement{
                     return false;
                 }
             } else {
-                commandFactory.getTraverseCommand(path.charAt(i)).execute();
+                mazeCommandExecutor.executeTraversal(path.charAt(i));
             }
         }
         if (row == rightRow && col == rightCol){

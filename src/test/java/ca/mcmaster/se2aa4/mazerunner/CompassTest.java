@@ -3,7 +3,6 @@ package ca.mcmaster.se2aa4.mazerunner;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
-import ca.mcmaster.se2aa4.mazerunner.Direction;
 
 public class CompassTest{
     private Compass compass;

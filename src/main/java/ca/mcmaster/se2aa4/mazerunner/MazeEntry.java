@@ -1,9 +1,10 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import ca.mcmaster.se2aa4.mazerunner.Passage;
-
 public class MazeEntry{
-    private int leftRow, leftCol, rightRow, rightCol;
+    private int leftRow;
+    private int leftCol;
+    private int rightRow;
+    private int rightCol;
     private Maze maze;
 
     public MazeEntry(Maze maze){

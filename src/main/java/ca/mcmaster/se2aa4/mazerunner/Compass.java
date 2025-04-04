@@ -1,7 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import ca.mcmaster.se2aa4.mazerunner.Direction;
-
 public class Compass{
     private Direction direction;
 

@@ -1,39 +1,36 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import ca.mcmaster.se2aa4.mazerunner.Direction;
-
 public abstract class PathMovement{
     protected String path;
     protected Maze maze;
     protected MazeEntry entry;
-    protected CommandFactory commandFactory;
     protected Compass compass;
-    protected int row, col;
+    protected CommandProvider commandProvider;
+    protected MazeCommandExecutor mazeCommandExecutor;
+    protected int row;
+    protected int col;
 
     public PathMovement(Maze maze, Compass compass){
         this.maze = maze;
         this.compass = compass;
         this.entry = new MazeEntry(maze);
-        this.commandFactory = new CommandFactory(compass);
+        this.commandProvider = new CommandProvider(compass);
+        this.mazeCommandExecutor = new MazeCommandExecutor(new TraversalDecision(commandProvider), new PathfinderDecision(commandProvider));
     }
 
     protected boolean canMoveForward(){
         //Checks if forward tile is a passage depending on compass direction
         if (compass.getDirection() == Direction.NORTH){
-            if (row == 0) return false;
-            return maze.getMaze()[row-1][col] == Passage.PASS ? true : false;
+            return (row != 0) && (maze.getMaze()[row-1][col] == Passage.PASS);
         
         } else if (compass.getDirection() == Direction.EAST){
-            if (col == maze.width()-1) return false;
-            return maze.getMaze()[row][col+1] == Passage.PASS ? true : false;
+            return (col != maze.width()-1) && (maze.getMaze()[row][col+1] == Passage.PASS);
         
         } else if (compass.getDirection() == Direction.SOUTH){
-            if (row == maze.height()-1) return false;
-            return maze.getMaze()[row+1][col] == Passage.PASS ? true : false;
+            return (row != maze.height()-1) && (maze.getMaze()[row+1][col] == Passage.PASS);
         
         } else {
-            if (col == 0) return false;
-            return maze.getMaze()[row][col-1] == Passage.PASS ? true : false;
+            return (col != 0) && (maze.getMaze()[row][col-1] == Passage.PASS);
         }
     }
 
